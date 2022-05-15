@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="KurrencyToolbarText" parent="TextAppearance.AppCompat">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/onBackgroundColor</item>
+        <item name="android:textSize">@dimen/dimen_20sp</item>
+    </style>
+
+    <style name="KurrencySymbol" parent="TextAppearance.AppCompat">
+        <item name="textAllCaps">true</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:textColor">@color/onBackgroundColor</item>
+        <item name="android:textSize">@dimen/dimen_16sp</item>
+    </style>
+
+    <style name="KurrencyName" parent="TextAppearance.AppCompat">
+        <item name="android:textColor">@color/onBackgroundColor</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">@dimen/dimen_24sp</item>
+    </style>
+
+    <style name="KurrencyStatus" parent="TextAppearance.AppCompat">
+        <item name="android:textColor">@color/activeColor</item>
+        <item name="android:textSize">@dimen/dimen_12sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="KurrencyAppbar" parent="ThemeOverlay.MaterialComponents">
+        <item name="fontFamily">@font/open_sans</item>
+    </style>
+
+    <style name="KurrencyPopOverlay" parent="ThemeOverlay.MaterialComponents">
+        <item name="fontFamily">@font/open_sans</item>
+    </style>
+
+</resources>
