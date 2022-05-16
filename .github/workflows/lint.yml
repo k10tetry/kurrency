@@ -14,7 +14,7 @@ jobs:
       - name: Lint Code
         uses: github/super-linter@v4
         env:
-          VALIDATE_ALL_CODEBASE: true
+          VALIDATE_ALL_CODEBASE: false
           VALIDATE_MD: false
           VALIDATE_XML: true
-          VALIDATE_KOTLIN: true
+          VALIDATE_KOTLIN_ANDROID: true

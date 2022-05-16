@@ -19,3 +19,4 @@ data class Kurrency(
         const val TABLE = "kurrency_table"
     }
 }
+
