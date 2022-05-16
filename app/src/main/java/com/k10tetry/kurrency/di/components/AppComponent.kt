@@ -1,8 +1,7 @@
 package com.k10tetry.kurrency.di.components
 
 import com.k10tetry.kurrency.KurrencyApp
-import com.k10tetry.kurrency.data.local.db.KurrencyDao
-import com.k10tetry.kurrency.data.remote.KurrencyApiService
+import com.k10tetry.kurrency.data.repository.KurrencyRepository
 import com.k10tetry.kurrency.di.modules.AppModule
 import com.k10tetry.kurrency.di.modules.DatabaseModule
 import com.k10tetry.kurrency.di.modules.NetworkModule
@@ -15,9 +14,7 @@ import javax.inject.Singleton
 interface AppComponent {
     fun inject(kurrencyApp: KurrencyApp)
 
-    fun getKurrencyApiService(): KurrencyApiService
-
     fun getNetworkUtils(): NetworkUtils
 
-    fun getKurrencyDao(): KurrencyDao
+    fun getKurrencyRepository(): KurrencyRepository
 }

@@ -8,7 +8,7 @@ import com.k10tetry.kurrency.di.scopes.ActivityScope
 import javax.inject.Inject
 import javax.inject.Singleton
 
-@ActivityScope
+@Singleton
 class KurrencyRepository @Inject constructor(
     private val apiService: KurrencyApiService,
     private val kurrencyDao: KurrencyDao

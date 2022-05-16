@@ -1,5 +1,7 @@
 package com.k10tetry.kurrency.ui.main
 
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
 import android.annotation.SuppressLint
 import android.content.res.Configuration
 import android.graphics.Rect
@@ -7,8 +9,10 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.view.animation.Animation
 import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.content.res.ResourcesCompat
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -73,28 +77,45 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>() {
 
         networkUtils.connectivity.observe(this) { connection ->
             if (!connection) {
-                showSnackbar()
-            } else if (mViewModel.kurrencyData.value?.isEmpty() == true) {
-                getKurrency()
+                mViewBinding.textConnectionStatus.text = getString(R.string.no_connection)
+                mViewBinding.linearLayoutConnection.apply {
+                    visibility = View.VISIBLE
+                    setBackgroundColor(
+                        ResourcesCompat.getColor(
+                            resources,
+                            R.color.inActiveColor,
+                            null
+                        )
+                    )
+                }
+            } else {
+                if (mMainRecycleAdapter.itemCount == 0) {
+                    mViewModel.fetchCoins()
+                }
+                mViewBinding.textConnectionStatus.text = getString(R.string.online)
+                mViewBinding.linearLayoutConnection.apply {
+                    setBackgroundColor(
+                        ResourcesCompat.getColor(
+                            resources,
+                            R.color.activeColor,
+                            null
+                        )
+                    )
+                    animate().apply {
+                        alpha(1f)
+                        duration = 1000L
+                        startDelay = 1000L
+                        setListener(object : AnimatorListenerAdapter() {
+                            override fun onAnimationEnd(animation: Animator?) {
+                                super.onAnimationEnd(animation)
+                                visibility = View.GONE
+                            }
+                        })
+                    }
+                }
             }
         }
 
-        if (mViewModel.kurrencyData.value?.isEmpty() == true) {
-            getKurrency()
-        }
-
-    }
-
-    private fun getKurrency() {
-        mViewModel.fetchCoins()
-    }
-
-    private fun showSnackbar() {
-        Snackbar.make(
-            mViewBinding.root,
-            "Network connection unavailable",
-            Snackbar.LENGTH_LONG
-        ).show()
     }
 
     private fun initAdapter() {

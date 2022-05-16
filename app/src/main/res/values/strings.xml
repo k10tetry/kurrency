@@ -3,4 +3,6 @@
     <string name="switch_theme">Switch Theme</string>
     <string name="text_new">New</string>
     <string name="filter_kurrency">Filter</string>
+    <string name="no_connection">No Connection</string>
+    <string name="online">Online</string>
 </resources>

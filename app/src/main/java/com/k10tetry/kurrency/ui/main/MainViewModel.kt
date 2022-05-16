@@ -31,7 +31,6 @@ class MainViewModel(private val kurrencyRepository: KurrencyRepository) : ViewMo
                 _localData = result
             } catch (e: Exception) {
                 _isLoading.value = false
-                Log.d(TAG, "fetchCoins: ${e.message}")
             }
         }
     }
@@ -46,14 +45,6 @@ class MainViewModel(private val kurrencyRepository: KurrencyRepository) : ViewMo
             })
             filterType = filterKurrency
         }
-    }
-
-    fun resetFilter() {
-        _kurrencyData.value = _localData
-    }
-
-    companion object {
-        const val TAG = "MainViewModel"
     }
 
 }
