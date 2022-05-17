@@ -16,8 +16,8 @@ import javax.inject.Singleton
 class NetworkUtils @Inject constructor(@ApplicationContext context: Context) :
     ConnectivityManager.NetworkCallback() {
 
-    var networkRequest: NetworkRequest = NetworkRequest.Builder().build()
-    var connectivityManager: ConnectivityManager
+    private var networkRequest: NetworkRequest = NetworkRequest.Builder().build()
+    private var connectivityManager: ConnectivityManager
     private val _connectivity: MutableLiveData<Boolean> = MutableLiveData()
     val connectivity: LiveData<Boolean> = _connectivity
 
@@ -33,6 +33,7 @@ class NetworkUtils @Inject constructor(@ApplicationContext context: Context) :
 
         var connection = false
 
+        @Suppress("DEPRECATION")
         connectivityManager.allNetworks.forEach {
             connectivityManager.getNetworkCapabilities(it)?.let { network ->
                 if (network.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)) {
