@@ -1,20 +1,22 @@
 package com.k10tetry.kurrency.di.components
 
-import com.k10tetry.kurrency.KurrencyApp
-import com.k10tetry.kurrency.data.repository.KurrencyRepository
-import com.k10tetry.kurrency.di.modules.AppModule
+import android.content.Context
 import com.k10tetry.kurrency.di.modules.DatabaseModule
 import com.k10tetry.kurrency.di.modules.NetworkModule
-import com.k10tetry.kurrency.utils.NetworkUtils
+import com.k10tetry.kurrency.di.modules.AppSubComponent
+import com.k10tetry.kurrency.di.qualifiers.ApplicationContext
+import dagger.BindsInstance
 import dagger.Component
 import javax.inject.Singleton
 
 @Singleton
-@Component(modules = [AppModule::class, NetworkModule::class, DatabaseModule::class])
+@Component(modules = [AppSubComponent::class, NetworkModule::class, DatabaseModule::class])
 interface AppComponent {
-    fun inject(kurrencyApp: KurrencyApp)
 
-    fun getNetworkUtils(): NetworkUtils
+    @Component.Factory
+    interface Factory {
+        fun create(@BindsInstance @ApplicationContext context: Context): AppComponent
+    }
 
-    fun getKurrencyRepository(): KurrencyRepository
+    fun mainActivityComponent(): MainActivityComponent.Factory
 }

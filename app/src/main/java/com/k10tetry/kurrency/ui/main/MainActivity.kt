@@ -9,7 +9,6 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.view.animation.Animation
 import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.res.ResourcesCompat
@@ -18,10 +17,9 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.google.android.material.snackbar.Snackbar
 import com.k10tetry.kurrency.R
 import com.k10tetry.kurrency.databinding.ActivityMainBinding
-import com.k10tetry.kurrency.di.components.ActivityComponent
+import com.k10tetry.kurrency.di.components.MainActivityComponent
 import com.k10tetry.kurrency.ui.base.BaseActivity
 import com.k10tetry.kurrency.utils.NetworkUtils
 import com.k10tetry.kurrency.utils.ViewModelFactory
@@ -43,8 +41,8 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>() {
     @Inject
     lateinit var networkUtils: NetworkUtils
 
-    override fun injectActivity(activityComponent: ActivityComponent) =
-        activityComponent.inject(this)
+    override fun injectActivity(mainActivityComponent: MainActivityComponent) =
+        mainActivityComponent.inject(this)
 
     override fun getViewBindings(): ActivityMainBinding =
         ActivityMainBinding.inflate(layoutInflater)

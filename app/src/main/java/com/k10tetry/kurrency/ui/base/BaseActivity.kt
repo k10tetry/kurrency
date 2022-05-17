@@ -5,9 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModel
 import androidx.viewbinding.ViewBinding
 import com.k10tetry.kurrency.KurrencyApp
-import com.k10tetry.kurrency.di.components.ActivityComponent
-import com.k10tetry.kurrency.di.components.DaggerActivityComponent
-import com.k10tetry.kurrency.di.modules.ActivityModule
+import com.k10tetry.kurrency.di.components.MainActivityComponent
 
 abstract class BaseActivity<VM : ViewModel, VB : ViewBinding> : AppCompatActivity() {
 
@@ -26,12 +24,9 @@ abstract class BaseActivity<VM : ViewModel, VB : ViewBinding> : AppCompatActivit
     }
 
     private fun performInjection() =
-        DaggerActivityComponent.builder()
-            .appComponent((application as KurrencyApp).appComponent)
-            .activityModule(ActivityModule(this))
-            .build()
+        (application as KurrencyApp).appComponent.mainActivityComponent().create(this)
 
-    abstract fun injectActivity(activityComponent: ActivityComponent)
+    abstract fun injectActivity(mainActivityComponent: MainActivityComponent)
 
     abstract fun getViewBindings(): VB
 

@@ -4,7 +4,6 @@ import android.util.Log
 import com.k10tetry.kurrency.data.local.db.KurrencyDao
 import com.k10tetry.kurrency.data.model.Kurrency
 import com.k10tetry.kurrency.data.remote.KurrencyApiService
-import com.k10tetry.kurrency.di.scopes.ActivityScope
 import javax.inject.Inject
 import javax.inject.Singleton
 

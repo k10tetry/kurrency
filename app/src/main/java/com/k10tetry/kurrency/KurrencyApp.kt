@@ -4,7 +4,6 @@ import android.app.Application
 import androidx.appcompat.app.AppCompatDelegate
 import com.k10tetry.kurrency.di.components.AppComponent
 import com.k10tetry.kurrency.di.components.DaggerAppComponent
-import com.k10tetry.kurrency.di.modules.AppModule
 import com.k10tetry.kurrency.utils.isNight
 
 class KurrencyApp : Application() {
@@ -14,9 +13,7 @@ class KurrencyApp : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        appComponent = DaggerAppComponent.builder()
-            .appModule(AppModule(this))
-            .build()
+        appComponent = DaggerAppComponent.factory().create(this)
 
         val mode = if (isNight()) {
             AppCompatDelegate.MODE_NIGHT_YES
