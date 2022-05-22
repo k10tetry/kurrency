@@ -1,16 +1,19 @@
 package com.k10tetry.kurrency.ui.main
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.k10tetry.kurrency.data.model.Kurrency
 import com.k10tetry.kurrency.data.repository.KurrencyRepository
+import com.k10tetry.kurrency.di.scopes.ActivityScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class MainViewModel(private val kurrencyRepository: KurrencyRepository) : ViewModel() {
+@ActivityScope
+class MainViewModel @Inject constructor(private val kurrencyRepository: KurrencyRepository) :
+    ViewModel() {
 
     private val _kurrencyData: MutableLiveData<List<Kurrency>> = MutableLiveData(emptyList())
     private val _isLoading: MutableLiveData<Boolean> = MutableLiveData(false)

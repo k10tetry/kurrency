@@ -2,6 +2,8 @@ package com.k10tetry.kurrency.di.components
 
 import android.content.Context
 import com.k10tetry.kurrency.di.modules.ActivityModule
+import com.k10tetry.kurrency.di.modules.ViewModelFactoryModule
+import com.k10tetry.kurrency.di.modules.ViewModelModule
 import com.k10tetry.kurrency.di.qualifiers.ActivityContext
 import com.k10tetry.kurrency.di.scopes.ActivityScope
 import com.k10tetry.kurrency.ui.main.MainActivity
