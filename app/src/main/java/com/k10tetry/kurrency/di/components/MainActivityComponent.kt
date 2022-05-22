@@ -1,7 +1,7 @@
 package com.k10tetry.kurrency.di.components
 
 import android.content.Context
-import com.k10tetry.kurrency.di.modules.ActivityModule
+import com.k10tetry.kurrency.di.modules.MainActivityModule
 import com.k10tetry.kurrency.di.modules.ViewModelFactoryModule
 import com.k10tetry.kurrency.di.modules.ViewModelModule
 import com.k10tetry.kurrency.di.qualifiers.ActivityContext
@@ -11,7 +11,7 @@ import dagger.BindsInstance
 import dagger.Subcomponent
 
 @ActivityScope
-@Subcomponent(modules = [ActivityModule::class])
+@Subcomponent(modules = [MainActivityModule::class, ViewModelFactoryModule::class, ViewModelModule::class])
 interface MainActivityComponent {
 
     @Subcomponent.Factory

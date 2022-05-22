@@ -26,7 +26,7 @@ class MainViewModel @Inject constructor(private val kurrencyRepository: Kurrency
 
     fun fetchCoins() {
         _isLoading.value = true
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             try {
                 val result = kurrencyRepository.getKurrency()
                 _isLoading.value = false
@@ -39,7 +39,7 @@ class MainViewModel @Inject constructor(private val kurrencyRepository: Kurrency
     }
 
     fun filterKurrency(filterKurrency: FilterKurrency) {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch {
             _kurrencyData.postValue(when (filterKurrency) {
                 FilterKurrency.ACTIVE -> _localData.filter { it.isActive }
                 FilterKurrency.NEW -> _localData.filter { it.isNew }
