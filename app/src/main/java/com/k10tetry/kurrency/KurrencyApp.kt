@@ -1,10 +1,10 @@
 package com.k10tetry.kurrency
 
 import android.app.Application
+import android.content.res.Configuration
 import androidx.appcompat.app.AppCompatDelegate
 import com.k10tetry.kurrency.di.components.AppComponent
 import com.k10tetry.kurrency.di.components.DaggerAppComponent
-import com.k10tetry.kurrency.utils.isNight
 
 class KurrencyApp : Application() {
 
@@ -15,11 +15,12 @@ class KurrencyApp : Application() {
         super.onCreate()
         appComponent = DaggerAppComponent.factory().create(this)
 
-        val mode = if (isNight()) {
-            AppCompatDelegate.MODE_NIGHT_YES
-        } else {
-            AppCompatDelegate.MODE_NIGHT_NO
-        }
+        val mode =
+            if ((resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_NO) {
+                AppCompatDelegate.MODE_NIGHT_NO
+            } else {
+                AppCompatDelegate.MODE_NIGHT_YES
+            }
         AppCompatDelegate.setDefaultNightMode(mode)
     }
 
