@@ -14,19 +14,24 @@ class KurrencyRepository @Inject constructor(
 ) {
 
     suspend fun getKurrency(): List<Kurrency> {
+        var result = emptyList<Kurrency>()
         try {
 
-            val result = apiService.getAllCoins()
-
-            if (result.isNotEmpty()) {
-                kurrencyDao.insert(result)
-            }
+            result = apiService.getAllCoins()
 
         } catch (e: Exception) {
             Log.e(TAG, "getKurrency: ${e.message}")
         }
 
-        return kurrencyDao.getAll()
+        if (result.isEmpty()) {
+            result = kurrencyDao.getAll()
+        }
+
+        return result
+    }
+
+    suspend fun saveKurrency(list: List<Kurrency>) {
+        kurrencyDao.insert(list)
     }
 
     companion object {

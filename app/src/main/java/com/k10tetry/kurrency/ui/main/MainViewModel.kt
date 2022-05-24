@@ -29,12 +29,21 @@ class MainViewModel @Inject constructor(private val kurrencyRepository: Kurrency
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 val result = kurrencyRepository.getKurrency()
-                _isLoading.value = false
-                _kurrencyData.value = result
+                if (result.isNotEmpty()) {
+                    saveKurrency(result)
+                }
+                _isLoading.postValue(false)
+                _kurrencyData.postValue(result)
                 _localData = result
             } catch (e: Exception) {
-                _isLoading.value = false
+                _isLoading.postValue(false)
             }
+        }
+    }
+
+    private fun saveKurrency(result: List<Kurrency>) {
+        viewModelScope.launch(Dispatchers.Default) {
+            kurrencyRepository.saveKurrency(result)
         }
     }
 
