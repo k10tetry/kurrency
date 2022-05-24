@@ -10,30 +10,27 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.ArrayAdapter
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.k10tetry.kurrency.R
 import com.k10tetry.kurrency.databinding.ActivityMainBinding
-import com.k10tetry.kurrency.di.components.MainActivityComponent
 import com.k10tetry.kurrency.ui.base.BaseActivity
 import com.k10tetry.kurrency.utils.NetworkUtils
-import com.k10tetry.kurrency.utils.ViewModelFactory
 import com.k10tetry.kurrency.utils.capitalisation
 import com.k10tetry.kurrency.utils.toPx
+import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>() {
 
     @Inject
     lateinit var mLayoutManager: LinearLayoutManager
-
-    @Inject
-    lateinit var mViewModelFactory: ViewModelFactory
 
     @Inject
     lateinit var mMainRecycleAdapter: MainRecycleAdapter
@@ -41,14 +38,8 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>() {
     @Inject
     lateinit var networkUtils: NetworkUtils
 
-    override fun injectActivity(mainActivityComponent: MainActivityComponent) =
-        mainActivityComponent.inject(this)
-
     override fun getViewBindings(): ActivityMainBinding =
         ActivityMainBinding.inflate(layoutInflater)
-
-    override fun getViewModel(): MainViewModel =
-        ViewModelProvider(this, mViewModelFactory)[MainViewModel::class.java]
 
     override fun init() {
         setSupportActionBar(mViewBinding.toolbar)
@@ -124,7 +115,7 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>() {
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_main, menu)
         return true
     }
@@ -189,4 +180,6 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>() {
             outRect.set(common, common, common, bottom)
         }
     }
+
+    override val mViewModel: MainViewModel by viewModels()
 }

@@ -5,12 +5,15 @@ import androidx.room.Room
 import com.k10tetry.kurrency.BuildConfig
 import com.k10tetry.kurrency.data.local.db.KurrencyDao
 import com.k10tetry.kurrency.data.local.db.KurrencyDatabase
-import com.k10tetry.kurrency.di.qualifiers.ApplicationContext
 import dagger.Module
 import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
+import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
 @Module
+@InstallIn(SingletonComponent::class)
 object DatabaseModule {
 
     @Singleton

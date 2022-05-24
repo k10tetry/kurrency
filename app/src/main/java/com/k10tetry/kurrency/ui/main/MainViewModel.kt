@@ -6,12 +6,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.k10tetry.kurrency.data.model.Kurrency
 import com.k10tetry.kurrency.data.repository.KurrencyRepository
-import com.k10tetry.kurrency.di.scopes.ActivityScope
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-@ActivityScope
+@HiltViewModel
 class MainViewModel @Inject constructor(private val kurrencyRepository: KurrencyRepository) :
     ViewModel() {
 
@@ -29,12 +29,21 @@ class MainViewModel @Inject constructor(private val kurrencyRepository: Kurrency
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 val result = kurrencyRepository.getKurrency()
-                _isLoading.value = false
-                _kurrencyData.value = result
+                if (result.isNotEmpty()) {
+                    saveKurrency(result)
+                }
+                _isLoading.postValue(false)
+                _kurrencyData.postValue(result)
                 _localData = result
             } catch (e: Exception) {
-                _isLoading.value = false
+                _isLoading.postValue(false)
             }
+        }
+    }
+
+    private fun saveKurrency(result: List<Kurrency>) {
+        viewModelScope.launch(Dispatchers.Default) {
+            kurrencyRepository.saveKurrency(result)
         }
     }
 
