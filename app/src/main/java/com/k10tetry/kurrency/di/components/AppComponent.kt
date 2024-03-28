@@ -1,7 +1,6 @@
 package com.k10tetry.kurrency.di.components
 
 import android.content.Context
-import com.k10tetry.kurrency.di.modules.AppSubComponent
 import com.k10tetry.kurrency.di.modules.DatabaseModule
 import com.k10tetry.kurrency.di.modules.NetworkModule
 import com.k10tetry.kurrency.di.qualifiers.ApplicationContext
@@ -10,7 +9,7 @@ import dagger.Component
 import javax.inject.Singleton
 
 @Singleton
-@Component(modules = [AppSubComponent::class, NetworkModule::class, DatabaseModule::class])
+@Component(modules = [NetworkModule::class, DatabaseModule::class])
 interface AppComponent {
 
     @Component.Factory

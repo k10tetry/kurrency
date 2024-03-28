@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModel
 import androidx.viewbinding.ViewBinding
 import com.k10tetry.kurrency.KurrencyApp
+import com.k10tetry.kurrency.di.components.AppComponent
 import com.k10tetry.kurrency.di.components.MainActivityComponent
 
 abstract class BaseActivity<VM : ViewModel, VB : ViewBinding> : AppCompatActivity() {
@@ -14,7 +15,7 @@ abstract class BaseActivity<VM : ViewModel, VB : ViewBinding> : AppCompatActivit
     lateinit var mViewBinding: VB
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        injectActivity(performInjection())
+        injectActivity((application as KurrencyApp).appComponent)
         super.onCreate(savedInstanceState)
 
         mViewBinding = getViewBindings()
@@ -23,10 +24,7 @@ abstract class BaseActivity<VM : ViewModel, VB : ViewBinding> : AppCompatActivit
         init()
     }
 
-    private fun performInjection() =
-        (application as KurrencyApp).appComponent.mainActivityComponent().create(this)
-
-    abstract fun injectActivity(mainActivityComponent: MainActivityComponent)
+    abstract fun injectActivity(appComponent: AppComponent)
 
     abstract fun getViewBindings(): VB
 

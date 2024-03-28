@@ -19,7 +19,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.k10tetry.kurrency.R
 import com.k10tetry.kurrency.databinding.ActivityMainBinding
-import com.k10tetry.kurrency.di.components.MainActivityComponent
+import com.k10tetry.kurrency.di.components.AppComponent
 import com.k10tetry.kurrency.ui.base.BaseActivity
 import com.k10tetry.kurrency.utils.NetworkUtils
 import com.k10tetry.kurrency.utils.ViewModelFactory
@@ -41,8 +41,9 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>() {
     @Inject
     lateinit var networkUtils: NetworkUtils
 
-    override fun injectActivity(mainActivityComponent: MainActivityComponent) =
-        mainActivityComponent.inject(this)
+    override fun injectActivity(appComponent: AppComponent) {
+        appComponent.mainActivityComponent().create(this).inject(this)
+    }
 
     override fun getViewBindings(): ActivityMainBinding =
         ActivityMainBinding.inflate(layoutInflater)
@@ -80,9 +81,7 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>() {
                     visibility = View.VISIBLE
                     setBackgroundColor(
                         ResourcesCompat.getColor(
-                            resources,
-                            R.color.inActiveColor,
-                            null
+                            resources, R.color.inActiveColor, null
                         )
                     )
                 }
@@ -94,9 +93,7 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>() {
                 mViewBinding.linearLayoutConnection.apply {
                     setBackgroundColor(
                         ResourcesCompat.getColor(
-                            resources,
-                            R.color.activeColor,
-                            null
+                            resources, R.color.activeColor, null
                         )
                     )
                     animate().apply {
@@ -130,32 +127,24 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            R.id.action_switch -> {
-                switchTheme()
-                true
-            }
-            R.id.action_filter -> {
-                showDialog()
-                true
-            }
-            else -> true
+        when (item.itemId) {
+            R.id.action_switch -> switchTheme()
+            R.id.action_filter -> showDialog()
         }
+        return super.onOptionsItemSelected(item)
     }
 
     private fun showDialog() {
 
         val materialDialog =
             MaterialAlertDialogBuilder(this).setTitle("Filter Kurrency").setSingleChoiceItems(
-                ArrayAdapter(
-                    this,
+                ArrayAdapter(this,
                     androidx.constraintlayout.widget.R.layout.select_dialog_singlechoice_material,
-                    FilterKurrency.values().map { it.name.capitalisation() }
-                ),
+                    FilterKurrency.values().map { it.name.capitalisation() }),
                 mViewModel.filterType.ordinal
-            ) { _dialog, position ->
+            ) { dialogInterface, position ->
                 mViewModel.filterKurrency(FilterKurrency.values()[position])
-                _dialog.dismiss()
+                dialogInterface.dismiss()
             }
 
         materialDialog.create().show()
@@ -163,9 +152,7 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>() {
 
     private fun switchTheme() {
         val mode =
-            if ((resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) ==
-                Configuration.UI_MODE_NIGHT_NO
-            ) {
+            if ((resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_NO) {
                 AppCompatDelegate.MODE_NIGHT_YES
             } else {
                 AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY
@@ -176,10 +163,7 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>() {
     inner class MainItemDecorator : RecyclerView.ItemDecoration() {
 
         override fun getItemOffsets(
-            outRect: Rect,
-            view: View,
-            parent: RecyclerView,
-            state: RecyclerView.State
+            outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State
         ) {
             val common = 16.toPx(resources)
             val bottom = when (parent.getChildAdapterPosition(view)) {
